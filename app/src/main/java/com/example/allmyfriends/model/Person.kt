@@ -1,16 +1,16 @@
 package com.example.allmyfriends.model
 
-data class Person (
-	val gender : String,
-	val name : Name,
-	val location : Location,
-	val email : String,
-	val login : Login,
-	val dob : Dob,
-	val registered : Registered,
-	val phone : String,
-	val cell : String,
-	val id : Id,
-	val picture : Picture,
-	val nat : String
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.example.allmyfriends.model.dto.Location
+import com.example.allmyfriends.model.dto.Name
+import com.example.allmyfriends.model.dto.Picture
+
+@Entity(tableName = "people")
+data class Person(
+    @PrimaryKey(autoGenerate = true) var id: Long = 0,
+    var name: Name,
+    var picture: Picture,
+    var location: Location,
+    var nationality: String
 )

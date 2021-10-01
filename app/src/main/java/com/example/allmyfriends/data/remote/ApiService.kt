@@ -1,11 +1,11 @@
 package com.example.allmyfriends.data.remote
 
-import com.example.allmyfriends.model.ApiResponse
+import com.example.allmyfriends.model.dto.ApiResponse
 import retrofit2.http.GET
 
 interface ApiService {
 
-    @GET("api/?page=10&results=2&seed=myset")
+    @GET("api/?page=20&results=50&seed=set")
     suspend fun queryData(): ApiResponse
 
         companion object{

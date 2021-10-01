@@ -1,4 +1,4 @@
-package com.example.allmyfriends.model
+package com.example.allmyfriends.model.dto
 
 data class Login (
 	val uuid : String,

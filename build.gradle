@@ -30,7 +30,7 @@ ext {
     coroutinesVersion = "1.5.2"
     roomVersion = "2.3.0"
     navigationVersion = "2.3.5"
-    kotlinVersion = "1.5.30"
+    kotlinVersion = "1.5.31"
    // gsonVersion = "2.8.8"
     coreTestingVersion = "2.1.0"
     lottieVersion = "4.1.0"

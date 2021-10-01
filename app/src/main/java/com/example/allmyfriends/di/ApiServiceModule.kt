@@ -1,4 +1,4 @@
-package com.example.mysmarthome.di
+package com.example.allmyfriends.di
 
 import com.example.allmyfriends.data.remote.ApiService
 import com.squareup.moshi.JsonAdapter
