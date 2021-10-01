@@ -3,14 +3,46 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:7.0.2"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31"
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.38.1'
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
+}
+
+ext {
+    materialVersion = '1.4.0'
+    supportLibVersion = '1.3.1'
+    moshiVersion = '1.12.0'
+    fragmentSupportVersion = "1.3.6"
+    constraintLayoutVersion = '2.1.1'
+    hiltVersion = '2.39'
+    hiltAndroidXVersion = '1.0.0-alpha03'
+    lifecycleVersion = '2.4.0-beta01'
+    retrofitVersion = "2.9.0"
+    coreVersion = "1.6.0"
+    coroutinesVersion = "1.5.2"
+    roomVersion = "2.3.0"
+    navigationVersion = "2.3.5"
+    kotlinVersion = "1.5.30"
+   // gsonVersion = "2.8.8"
+    coreTestingVersion = "2.1.0"
+    lottieVersion = "4.1.0"
+    mockkVersion = "1.12.0"
+    leakCanaryVersion = "2.7"
+
+
+    junitVersion = "4.13.2"
+    androidTestRunnerVersion = "1.4.0"
+    androidJunitVersion = "1.1.3"
+    espressoVersion = "3.4.0"
+    mockitoVersion = "3.11.1"
 }
 
 task clean(type: Delete) {
