@@ -5,7 +5,7 @@ import retrofit2.http.GET
 
 interface ApiService {
 
-    @GET("api/?page=20&results=50&seed=set")
+    @GET("api/?page=20&results=300&seed=myset")
     suspend fun queryData(): ApiResponse
 
         companion object{

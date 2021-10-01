@@ -7,6 +7,7 @@ import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.allmyfriends.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -22,8 +23,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         adapter = PersonListAdapter()
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.adapter = adapter
+        adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+        with(binding){
+            recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
+            recyclerView.adapter = adapter
+        }
     }
 
     override fun onStart() {
@@ -32,7 +36,6 @@ class MainActivity : AppCompatActivity() {
             if (it.data != null)
                 lifecycleScope.launchWhenStarted {
                     adapter.submitData(it.data)
-                    Log.d(TAG, "onStart: submitdata")
                 }
                 Log.d(TAG, "onCreate: data = ${it.error?.message}")
         }

@@ -3,7 +3,7 @@ package com.example.allmyfriends.model.dto
 import com.example.allmyfriends.model.Person
 
 
-data class PersonDto (
+data class UserDto (
     val gender : String,
     val name : Name,
     val location : Location,

@@ -9,7 +9,7 @@ import com.example.allmyfriends.model.Person
 @Database(entities = [Person::class], version = 2, exportSchema = false)
 @TypeConverters(TypeConverter::class)
 abstract class AllMyFriendsDatabase: RoomDatabase() {
-    abstract fun personDao(): PersonDao
+    abstract fun personDao(): UserDao
 
     companion object{
         const val DATABASE_NAME = "AllMyFriends.db"

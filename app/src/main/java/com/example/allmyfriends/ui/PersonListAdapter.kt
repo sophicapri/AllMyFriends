@@ -19,6 +19,7 @@ class PersonListAdapter : PagingDataAdapter<Person, PersonListAdapter.PersonView
 
     override fun onBindViewHolder(holder: PersonViewHolder, position: Int) {
         val person = getItem(position)
+        Log.d("Adapter", "item position = $position ")
         if (person != null) {
             holder.bindTo(person)
         }

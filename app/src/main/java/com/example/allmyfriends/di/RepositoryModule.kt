@@ -1,8 +1,9 @@
 package com.example.allmyfriends.di
 
-import com.example.allmyfriends.data.local.PersonDao
+import com.example.allmyfriends.data.local.AllMyFriendsDatabase
+import com.example.allmyfriends.data.local.UserDao
 import com.example.allmyfriends.data.remote.ApiService
-import com.example.allmyfriends.repository.RemoteDataRepository
+import com.example.allmyfriends.repository.PeopleRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,7 +18,8 @@ object RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideRemoteDataRepository(apiService: ApiService, personDao: PersonDao) = RemoteDataRepository(apiService, personDao)
+    fun provideRemoteDataRepository(apiService: ApiService, database : AllMyFriendsDatabase) =
+        PeopleRepository(apiService, database)
 
     @Singleton
     @Provides
