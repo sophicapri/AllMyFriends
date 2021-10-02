@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.allmyfriends.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -26,28 +26,40 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         adapter = PersonListAdapter()
-        adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-        with(binding){
-            recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
+        adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
+        val linearLayoutManager = LinearLayoutManager(this@MainActivity)
+        with(binding) {
+            recyclerView.layoutManager = linearLayoutManager
             recyclerView.adapter = adapter
         }
-    }
 
-    override fun onStart() {
-        super.onStart()
-       /* lifecycleScope.launchWhenCreated {
-            adapter.loadStateFlow.collectLatest { state ->
+        if (savedInstanceState != null) {
+            val notLoading = adapter.loadStateFlow
+                .distinctUntilChangedBy { it.refresh }
+                // Only react to cases where Remote REFRESH completes i.e., NotLoading.
+                .map { it.refresh is LoadState.NotLoading }
+
+            val shouldScrollToTop = notLoading.distinctUntilChanged()
+            val pagingData = viewModel.pagingData
+
+            lifecycleScope.launch {
+                combine(shouldScrollToTop, pagingData, ::Pair)
+                    .distinctUntilChangedBy { it.second }
+                    .collectLatest { (shouldScroll, pagingData) ->
+                        adapter.submitData(pagingData)
+                        // Scroll only after the data has been submitted to the adapter
+                        if (shouldScroll) linearLayoutManager.scrollToPosition(0)
+                    }
             }
-        }*/
-        viewModel.getUsers().observe(this) {
-            if (it != null)
-                lifecycleScope.launchWhenStarted {
-                    adapter.submitData(lifecycle, it)
+        } else
+            lifecycleScope.launchWhenCreated {
+                viewModel.getUsers().collectLatest {
+                            adapter.submitData(it)
                 }
-        }
+            }
     }
 
-    companion object{
+    companion object {
         const val TAG = "MainActivity"
     }
 }

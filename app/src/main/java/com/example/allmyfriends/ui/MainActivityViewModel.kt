@@ -12,21 +12,42 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
     private var peopleRepository: PeopleRepository,
-    var mainDispatcher: CoroutineDispatcher
+    var mainDispatcher: CoroutineDispatcher,
+    private var savedStateHandle: SavedStateHandle
+
 ) : ViewModel() {
     private val job = SupervisorJob()
     private val uiScope = CoroutineScope(mainDispatcher + job)
+    var pagingData: Flow<PagingData<Person>>
 
-    fun getUsers(): LiveData<PagingData<Person>> {
-        return peopleRepository.getUsers()
-            .cachedIn(uiScope).asLiveData()
+    init {
+        pagingData = (savedStateHandle.get<Flow<PagingData<Person>>>("PAGING_DATA") ?: MutableStateFlow(
+                PagingData.empty()
+            ))
+    }
+
+    fun getUsers(): Flow<PagingData<Person>> {
+        pagingData = if (internetAvailable())
+            peopleRepository.getUsers()
+                .cachedIn(uiScope).apply {
+                    pagingData = this
+                } else
+            peopleRepository.getUsersLocal()
+                .cachedIn(uiScope)
+
+        return pagingData
+    }
+
+    private fun internetAvailable() = true
+
+    override fun onCleared() {
+        super.onCleared()
+        savedStateHandle["PAGING_DATA"] = pagingData
     }
 }
