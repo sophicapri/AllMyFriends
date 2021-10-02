@@ -4,11 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.example.allmyfriends.model.Person
+import com.example.allmyfriends.model.User
 import com.example.allmyfriends.repository.PeopleRepository
 import com.example.allmyfriends.util.Result
-import dagger.assisted.Assisted
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -24,7 +25,8 @@ class MainActivityViewModel @Inject constructor(
     private val job = SupervisorJob()
     private val uiScope = CoroutineScope(mainDispatcher + job)
 
-    fun getUsers(): LiveData<Result<PagingData<Person>>> {
+    fun getUsers(): LiveData<Result<PagingData<User>>> {
            return peopleRepository.getUsers().asLiveData()
     }
+
 }

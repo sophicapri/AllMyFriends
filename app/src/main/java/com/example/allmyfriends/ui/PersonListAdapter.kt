@@ -2,16 +2,14 @@ package com.example.allmyfriends.ui
 
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.NonNull
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.allmyfriends.databinding.ItemPersonBinding
-import com.example.allmyfriends.model.Person
+import com.example.allmyfriends.model.User
 
-class PersonListAdapter : PagingDataAdapter<Person, PersonListAdapter.PersonViewHolder>(DIFF_CALLBACK) {
+class PersonListAdapter : PagingDataAdapter<User, PersonListAdapter.PersonViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonViewHolder {
         return PersonViewHolder(ItemPersonBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -19,29 +17,27 @@ class PersonListAdapter : PagingDataAdapter<Person, PersonListAdapter.PersonView
 
     override fun onBindViewHolder(holder: PersonViewHolder, position: Int) {
         val person = getItem(position)
-        Log.d("Adapter", "item position = $position ")
+        Log.d("Adapter", "onCreateViewHolder: item count = $itemCount")
         if (person != null) {
             holder.bindTo(person)
         }
     }
 
     inner class PersonViewHolder(var binding: ItemPersonBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bindTo(person: Person) {
-            Log.d("Adapter", "item count = $itemCount ")
-            Log.d("Adapter", "person name = ${person.name.first} ")
-            binding.personName.text =  person.name.first
+        fun bindTo(user: User) {
+            binding.personName.text =  user.name.first
         }
     }
 
 
     companion object {
         private val DIFF_CALLBACK = object :
-            DiffUtil.ItemCallback<Person>() {
+            DiffUtil.ItemCallback<User>() {
 
-            override fun areItemsTheSame(oldItem: Person, newItem: Person) =
+            override fun areItemsTheSame(oldItem: User, newItem: User) =
                 oldItem.id == newItem.id
 
-            override fun areContentsTheSame(oldItem: Person, newItem: Person) =
+            override fun areContentsTheSame(oldItem: User, newItem: User) =
                 oldItem == newItem
         }
     }

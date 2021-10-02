@@ -7,7 +7,7 @@ import com.example.allmyfriends.model.dto.Name
 import com.example.allmyfriends.model.dto.Picture
 
 @Entity(tableName = "people")
-data class Person(
+data class User(
     @PrimaryKey(autoGenerate = true) var id: Long = 0,
     var name: Name,
     var picture: Picture,

@@ -1,21 +1,19 @@
 package com.example.allmyfriends.repository
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
+import androidx.paging.*
 import androidx.room.withTransaction
 import com.example.allmyfriends.data.local.AllMyFriendsDatabase
 import com.example.allmyfriends.data.local.UserDao
 import com.example.allmyfriends.data.remote.ApiService
-import com.example.allmyfriends.model.Person
+import com.example.allmyfriends.model.User
 import com.example.allmyfriends.util.Result
 import com.example.allmyfriends.util.networkBoundResource
 import kotlinx.coroutines.flow.Flow
 
-class PeopleRepository(private var service: ApiService, var db : AllMyFriendsDatabase) {
+class PeopleRepository(private var service: ApiService, var db: AllMyFriendsDatabase) {
     private var userDao: UserDao = db.personDao()
 
-    fun getUsers(): Flow<Result<PagingData<Person>>> = networkBoundResource(
+    fun getUsers(): Flow<Result<PagingData<User>>> = networkBoundResource(
         query = {
             val pagingSourceFactory = { userDao.getPeople() }
             Pager(
@@ -28,14 +26,13 @@ class PeopleRepository(private var service: ApiService, var db : AllMyFriendsDat
             true
         },
         fetch = {
-            service.queryData().users.map { it.toDomain() }
+            service.queryData().users.map { it.toDomainModel() }
         },
         saveFetchResult = { people ->
             db.withTransaction {
                 userDao.deleteAllUsers()
                 userDao.insertPeople(people)
             }
-
         }
     )
 

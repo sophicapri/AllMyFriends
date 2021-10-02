@@ -1,6 +1,6 @@
 package com.example.allmyfriends.model.dto
 
-import com.example.allmyfriends.model.Person
+import com.example.allmyfriends.model.User
 
 
 data class UserDto (
@@ -17,5 +17,5 @@ data class UserDto (
     val picture : Picture,
     val nat : String
 ){
-	fun toDomain() = Person(name = name, picture = picture, location = location, nationality = nat)
+	fun toDomainModel() = User(name = name, picture = picture, location = location, nationality = nat)
 }
