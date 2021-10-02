@@ -26,7 +26,7 @@ class PeopleRepository(private var service: ApiService, var db: AllMyFriendsData
         },
         saveFetchResult = { people ->
             db.withTransaction {
-                if (page == 0)
+                if (page == 1)
                     userDao.deleteAllUsers()
                 userDao.insertUsers(people)
             }

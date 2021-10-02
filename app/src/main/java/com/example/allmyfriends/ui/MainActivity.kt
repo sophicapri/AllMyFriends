@@ -1,13 +1,17 @@
 package com.example.allmyfriends.ui
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.AttributeSet
 import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.allmyfriends.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     private val viewModel by viewModels<MainActivityViewModel>()
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: PersonListAdapter
-    private var layoutManager = GridLayoutManager(this@MainActivity, 2)
+    private var layoutManager = LinearLayoutManager(this@MainActivity)
     private val visibleThreshold = 5
     private var isLoading = false
 
@@ -26,25 +30,30 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         adapter = PersonListAdapter()
-        adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-        with(binding){
+        adapter.stateRestorationPolicy =
+            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+        with(binding) {
             recyclerView.layoutManager = layoutManager
             recyclerView.adapter = adapter
         }
         initScrollListener()
-        viewModel.currentPage.observe(this) { currentPage ->
-            Log.d(TAG, "onCreate: current page = $currentPage")
-            viewModel.getUsers(currentPage).observe(this) {
-                if (it.data != null) {
-                    Log.d(TAG, "onStart: list = ${it.data}")
-                    lifecycleScope.launchWhenStarted {
-                        adapter.submitList(it.data)
-                    }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        observeUsers()
+    }
+
+    private fun observeUsers(page: Int = 1) {
+        viewModel.getUsers(page).observe(this) {
+            if (it.data != null) {
+                Log.d(TAG, "onStart: list = ${it.data}")
+                lifecycleScope.launchWhenStarted {
+                    adapter.submitList(it.data)
                 }
             }
         }
     }
-
 
     private fun initScrollListener() {
         val scrollListener: RecyclerView.OnScrollListener =
@@ -53,7 +62,7 @@ class MainActivity : AppCompatActivity() {
                     super.onScrolled(recyclerView, dx, dy)
                     val lastVisibleItem: Int =
                         layoutManager.findLastCompletelyVisibleItemPosition()
-                    if (!isLoading && lastVisibleItem == adapter.itemCount - visibleThreshold) {
+                    if (!isLoading && lastVisibleItem == adapter.currentList.size - visibleThreshold) {
                         loadNextDataFromApi()
                         isLoading = true
                     }
@@ -63,14 +72,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadNextDataFromApi() {
-                val handler = Handler(Looper.getMainLooper())
-                handler.postDelayed({
-                    viewModel.loadMore(adapter.currentList.last().pageKey)
-                }, 2000)
+        val handler = Handler(Looper.getMainLooper())
+        handler.postDelayed({
+           observeUsers(adapter.currentList.last().pageKey)
+        }, 2000)
     }
 
 
-    companion object{
+    companion object {
         const val TAG = "MainActivity"
     }
 }

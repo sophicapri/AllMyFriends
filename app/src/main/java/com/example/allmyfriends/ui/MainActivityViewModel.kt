@@ -18,19 +18,8 @@ class MainActivityViewModel @Inject constructor(
     ) : ViewModel() {
     private val job = SupervisorJob()
     private val uiScope = CoroutineScope(mainDispatcher + job)
-    var currentPage = MutableLiveData(1)
-
-    init {
-        currentPage.postValue(1)
-    }
-
-    fun loadMore(pageKey: Int) {
-        currentPage.postValue(pageKey.plus(1))
-        Log.d("TAG", "loadMore: current value = ${currentPage.value} ")
-    }
 
     fun getUsers(page: Int): LiveData<Result<List<User>>> {
            return peopleRepository.getUsers(page).asLiveData()
     }
-
 }
