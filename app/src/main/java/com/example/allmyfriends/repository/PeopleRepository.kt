@@ -43,12 +43,12 @@ class PeopleRepository(private var service: ApiService, var db: AllMyFriendsData
        )*/
 
     fun getUsers(): Flow<PagingData<Person>> {
-        //val pagingSourceFactory = { userDao.getPeople() }
+        val pagingSourceFactory = { userDao.getPeople() }
         @OptIn(ExperimentalPagingApi::class)
         return Pager(
-            config = PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = true),
+            config = PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = true,  initialLoadSize = PAGE_SIZE * 3),
             remoteMediator = ApiServiceRemoteMediator(service, db),
-            pagingSourceFactory = { UserRemotePagingSource(service, db) }
+            pagingSourceFactory = pagingSourceFactory
         ).flow
     }
 

@@ -11,7 +11,7 @@ interface UserDao {
     suspend fun insertPeople(people: List<Person>): List<Long>
 
     @Query("SELECT * FROM people")
-    fun getPeople(): List<Person>
+    fun getPeople(): PagingSource<Int, Person>
 
     @Query("DELETE FROM people")
     fun clearUsers()

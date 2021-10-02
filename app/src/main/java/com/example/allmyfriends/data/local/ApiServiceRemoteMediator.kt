@@ -1,21 +1,6 @@
-/*
- * Copyright (C) 2020 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.example.allmyfriends.data.local
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -23,7 +8,6 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.allmyfriends.data.remote.ApiService
 import com.example.allmyfriends.model.Person
-import com.example.android.codelabs.paging.db.RemoteKeys
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -39,24 +23,15 @@ class ApiServiceRemoteMediator(
 ) : RemoteMediator<Int, Person>() {
 
     override suspend fun initialize(): InitializeAction {
-        return InitializeAction.LAUNCH_INITIAL_REFRESH
+        return InitializeAction.SKIP_INITIAL_REFRESH
     }
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Person>): MediatorResult {
+        Log.d("RemoteMediator", "load: ")
         val page = when (loadType) {
             LoadType.REFRESH -> STARTING_PAGE
             LoadType.PREPEND -> {
-                val remoteKeys = getRemoteKeyForFirstItem(state)
-                // If remoteKeys is null, that means the refresh result is not in the database yet.
-                // We can return Success with `endOfPaginationReached = false` because Paging
-                // will call this method again if RemoteKeys becomes non-null.
-                // If remoteKeys is NOT NULL but its prevKey is null, that means we've reached
-                // the end of pagination for prepend.
-                val prevKey = remoteKeys?.prevKey
-                if (prevKey == null) {
-                    return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
-                }
-                prevKey
+                return MediatorResult.Success(endOfPaginationReached = true)
             }
             LoadType.APPEND -> {
                 val remoteKeys = getRemoteKeyForLastItem(state)
@@ -73,7 +48,10 @@ class ApiServiceRemoteMediator(
             }
         }
 
+        Log.d("ApiRemoteMediator", "load: page = $page")
+
         try {
+
             val apiResponse = service.queryData(page, state.config.pageSize)
 
             val people = apiResponse.users.map { it.toDomain() }
@@ -89,6 +67,7 @@ class ApiServiceRemoteMediator(
                 val keys = people.map {
                     RemoteKeys(personId = it.id, prevKey = prevKey, nextKey = nextKey)
                 }
+
                 db.remoteKeysDao().insertAll(keys)
                 db.personDao().insertPeople(people)
             }
@@ -104,13 +83,13 @@ class ApiServiceRemoteMediator(
         // Get the last page that was retrieved, that contained items.
         // From that last page, get the last item
         return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
-            ?.let { repo ->
+            ?.let { person ->
                 // Get the remote keys of the last item retrieved
-                db.remoteKeysDao().remoteKeysPersonId(repo.id)
+                db.remoteKeysDao().remoteKeysPersonId(person.id)
             }
     }
 
-    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, Person>): RemoteKeys? {
+ /*   private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, Person>): RemoteKeys? {
         // Get the first page that was retrieved, that contained items.
         // From that first page, get the first item
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
@@ -118,7 +97,7 @@ class ApiServiceRemoteMediator(
                 // Get the remote keys of the first items retrieved
                 db.remoteKeysDao().remoteKeysPersonId(person.id)
             }
-    }
+    }*/
 /*
     private suspend fun getRemoteKeyClosestToCurrentPosition(
         state: PagingState<Int, Person>
