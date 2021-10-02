@@ -6,8 +6,11 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-    @GET("api/?results=20&seed=myset")
-    suspend fun queryData(@Query("page")page: Int): ApiResponse
+    @GET("api/?seed=myset")
+    suspend fun queryData(
+        @Query("page")page: Int,
+        @Query("results")pageSize: Int
+    ): ApiResponse
 
         companion object{
         const val API_URL = " https://randomuser.me/"

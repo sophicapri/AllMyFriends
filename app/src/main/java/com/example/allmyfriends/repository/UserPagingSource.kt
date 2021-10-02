@@ -29,7 +29,7 @@ constructor(private val apiService: ApiService, var db: AllMyFriendsDatabase) :
             val job = SupervisorJob()
             val ioScope = CoroutineScope(Dispatchers.IO + job)
 
-            val users = apiService.queryData(position, params.loadSize).users.map { it.toDomain() }
+            val users = apiService.queryData(position, params.loadSize).users.map { it.toDomainModel() }
 
             ioScope.launch {
                 db.withTransaction {
