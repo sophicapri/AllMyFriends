@@ -17,5 +17,5 @@ data class UserDto (
     val picture : Picture,
     val nat : String
 ){
-	fun toDomainModel() = User(name = name, picture = picture, location = location, nationality = nat)
+	fun toDomainModel(page: Int) = User(name = name, picture = picture, location = location, nationality = nat, pageKey = page)
 }

@@ -1,12 +1,7 @@
 package com.example.allmyfriends.ui
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
+import android.util.Log
+import androidx.lifecycle.*
 import com.example.allmyfriends.model.User
 import com.example.allmyfriends.repository.PeopleRepository
 import com.example.allmyfriends.util.Result
@@ -19,14 +14,23 @@ import javax.inject.Inject
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
     private var peopleRepository: PeopleRepository,
-    var mainDispatcher: CoroutineDispatcher,
-    private val savedStateHandle: SavedStateHandle
-) : ViewModel() {
+    var mainDispatcher: CoroutineDispatcher
+    ) : ViewModel() {
     private val job = SupervisorJob()
     private val uiScope = CoroutineScope(mainDispatcher + job)
+    var currentPage = MutableLiveData(1)
 
-    fun getUsers(): LiveData<Result<PagingData<User>>> {
-           return peopleRepository.getUsers().asLiveData()
+    init {
+        currentPage.postValue(1)
+    }
+
+    fun loadMore(pageKey: Int) {
+        currentPage.postValue(pageKey.plus(1))
+        Log.d("TAG", "loadMore: current value = ${currentPage.value} ")
+    }
+
+    fun getUsers(page: Int): LiveData<Result<List<User>>> {
+           return peopleRepository.getUsers(page).asLiveData()
     }
 
 }

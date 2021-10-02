@@ -12,5 +12,6 @@ data class User(
     var name: Name,
     var picture: Picture,
     var location: Location,
-    var nationality: String
+    var nationality: String,
+    val pageKey: Int
 )
