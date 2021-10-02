@@ -1,25 +1,32 @@
 package com.example.allmyfriends.ui
 
-import android.util.Log
 import androidx.lifecycle.*
-import com.example.allmyfriends.model.User
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import com.example.allmyfriends.model.Person
 import com.example.allmyfriends.repository.PeopleRepository
 import com.example.allmyfriends.util.Result
+import dagger.assisted.Assisted
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.distinctUntilChangedBy
 import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
     private var peopleRepository: PeopleRepository,
     var mainDispatcher: CoroutineDispatcher
-    ) : ViewModel() {
+) : ViewModel() {
     private val job = SupervisorJob()
     private val uiScope = CoroutineScope(mainDispatcher + job)
 
-    fun getUsers(page: Int): LiveData<Result<List<User>>> {
-           return peopleRepository.getUsers(page).asLiveData()
+    fun getUsers(): LiveData<PagingData<Person>> {
+        return peopleRepository.getUsers()
+            .cachedIn(uiScope).asLiveData()
     }
 }

@@ -1,18 +1,18 @@
 package com.example.allmyfriends.data.local
 
+import androidx.paging.PagingSource
 import androidx.room.*
-import com.example.allmyfriends.model.User
-import kotlinx.coroutines.flow.Flow
+import com.example.allmyfriends.model.Person
 
 @Dao
 interface UserDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertUsers(users: List<User>)
+    suspend fun insertPeople(people: List<Person>): List<Long>
 
     @Query("SELECT * FROM people")
-    fun getUsers(): Flow<List<User>>
+    fun getPeople(): List<Person>
 
     @Query("DELETE FROM people")
-    fun deleteAllUsers()
+    fun clearUsers()
 }
