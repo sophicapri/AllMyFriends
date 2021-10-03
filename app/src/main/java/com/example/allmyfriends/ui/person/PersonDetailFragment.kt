@@ -11,6 +11,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.allmyfriends.R
 import com.example.allmyfriends.databinding.FragmentPersonDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class PersonDetailFragment : Fragment() {
@@ -51,7 +52,7 @@ class PersonDetailFragment : Fragment() {
                 person.location.postcode,
                 person.location.state
             )
-            nationality.text = person.nationality
+            nationality.text = Locale("",person.nationality).displayCountry
             birthday.text = person.dateOfBirth.formattedDate()
             gender.text = person.gender.replaceFirstChar { it.titlecase() }
             email.text = person.email
