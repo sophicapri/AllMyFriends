@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 import ru.beryukhov.reactivenetwork.ReactiveNetwork
 
 @AndroidEntryPoint
-class PeopleListFragment: Fragment(), PeopleListAdapter.OnPersonClickListener {
+class PeopleListFragment : Fragment(), PeopleListAdapter.OnPersonClickListener {
     private val viewModel by viewModels<PeopleListViewModel>()
     private var _binding: FragmentPeopleListBinding? = null
     private val binding get() = _binding!!
@@ -43,6 +43,7 @@ class PeopleListFragment: Fragment(), PeopleListAdapter.OnPersonClickListener {
         super.onViewCreated(view, savedInstanceState)
         observeConnectivity()
         setupRecyclerView()
+        displayData()
         Log.d(TAG, "onViewCreated: ")
     }
 
@@ -60,11 +61,12 @@ class PeopleListFragment: Fragment(), PeopleListAdapter.OnPersonClickListener {
         super.onResume()
         Log.d(TAG, "onResume: ")
     }
-    
+
     private fun observeConnectivity() {
         lifecycleScope.launchWhenStarted {
             ReactiveNetwork().observeNetworkConnectivity(requireContext()).collectLatest {
-                val snackbar = Snackbar.make(binding.root, "Offline mode", Snackbar.LENGTH_INDEFINITE)
+                val snackbar =
+                    Snackbar.make(binding.root, "Offline mode", Snackbar.LENGTH_INDEFINITE)
                 if (!it.available)
                     snackbar.show()
                 else if (it.available)
@@ -85,7 +87,6 @@ class PeopleListFragment: Fragment(), PeopleListAdapter.OnPersonClickListener {
                 swipeRefresh.isRefreshing = false
             }
         }
-        displayData()
     }
 
     private fun displayData() {
@@ -102,8 +103,10 @@ class PeopleListFragment: Fragment(), PeopleListAdapter.OnPersonClickListener {
 
     override fun onPersonClick(person: Person) {
         findNavController()
-            .navigate(PeopleListFragmentDirections
-                .actionPeopleListFragmentToPersonDetailFragment(person = person))
+            .navigate(
+                PeopleListFragmentDirections
+                    .actionPeopleListFragmentToPersonDetailFragment(person = person)
+            )
     }
 
     override fun onDestroyView() {
