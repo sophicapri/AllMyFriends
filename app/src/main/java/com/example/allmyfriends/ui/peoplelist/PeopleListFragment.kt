@@ -1,5 +1,6 @@
 package com.example.allmyfriends.ui.peoplelist
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,11 +19,10 @@ import com.example.allmyfriends.databinding.FragmentPeopleListBinding
 import com.example.allmyfriends.model.Person
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.launch
 import ru.beryukhov.reactivenetwork.ReactiveNetwork
 
 @AndroidEntryPoint
@@ -32,12 +32,7 @@ class PeopleListFragment : Fragment(), PeopleListAdapter.OnPersonClickListener {
     private val binding get() = _binding!!
     private lateinit var adapter: PeopleListAdapter
     private lateinit var layoutManager: GridLayoutManager
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
+    private lateinit var snackbar: Snackbar
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,10 +51,10 @@ class PeopleListFragment : Fragment(), PeopleListAdapter.OnPersonClickListener {
     }
 
     private fun observeConnectivity() {
-        lifecycleScope.launchWhenStarted {
+        snackbar = Snackbar.make(binding.root, "Offline mode", Snackbar.LENGTH_INDEFINITE)
+            .setAction("Dismiss") { snackbar.dismiss() }
+        lifecycleScope.launchWhenCreated {
             ReactiveNetwork().observeNetworkConnectivity(requireContext()).collectLatest {
-                val snackbar =
-                    Snackbar.make(binding.root, "Offline mode", Snackbar.LENGTH_INDEFINITE)
                 if (!it.available)
                     snackbar.show()
                 if (it.available)
@@ -75,14 +70,14 @@ class PeopleListFragment : Fragment(), PeopleListAdapter.OnPersonClickListener {
         with(binding) {
             recyclerView.layoutManager = layoutManager
             recyclerView.adapter = adapter
-            recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-                    viewModel.scrollPosition = layoutManager.findFirstVisibleItemPosition()
-                }
-            })
             swipeRefresh.setOnRefreshListener {
-                adapter.refresh()
+                if (viewModel.isInternetAvailable.value) {
+                    adapter.refresh()
+                } else
+                    Toast.makeText(
+                        requireContext(), "Please connect to the internet to refresh the page",
+                        Toast.LENGTH_LONG
+                    ).show()
                 swipeRefresh.isRefreshing = false
             }
         }
@@ -90,9 +85,8 @@ class PeopleListFragment : Fragment(), PeopleListAdapter.OnPersonClickListener {
 
     private fun displayData() {
         lifecycleScope.launch {
-            viewModel.pagingData.collectLatest { pagingData ->
+            viewModel.pagingData.collect { pagingData ->
                 adapter.submitData(pagingData)
-                layoutManager.scrollToPosition(viewModel.scrollPosition)
             }
         }
 
@@ -100,15 +94,6 @@ class PeopleListFragment : Fragment(), PeopleListAdapter.OnPersonClickListener {
             adapter.loadStateFlow.collect { loadState ->
                 // Show loading spinner during initial load or refresh.
                 binding.progressBar.isVisible = loadState.source.refresh is LoadState.Loading
-                val errorState = loadState.source.append as? LoadState.Error
-                    ?: loadState.source.prepend as? LoadState.Error
-                    ?: loadState.append as? LoadState.Error
-                    ?: loadState.prepend as? LoadState.Error
-                errorState?.let {
-                    Toast.makeText(
-                        requireContext(), "\uD83D\uDE28 Wooops ${it.error}",
-                        Toast.LENGTH_LONG).show()
-                }
             }
         }
     }

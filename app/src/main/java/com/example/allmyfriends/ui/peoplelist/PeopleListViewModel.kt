@@ -7,13 +7,11 @@ import androidx.paging.cachedIn
 import com.example.allmyfriends.model.Person
 import com.example.allmyfriends.repository.PeopleRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
-import kotlinx.coroutines.launch
+import ru.beryukhov.reactivenetwork.ReactiveNetwork
 
 
 @HiltViewModel
