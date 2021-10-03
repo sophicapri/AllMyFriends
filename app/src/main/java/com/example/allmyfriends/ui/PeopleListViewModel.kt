@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 
 
 @HiltViewModel
-class MainActivityViewModel @Inject constructor(
+class PeopleListViewModel @Inject constructor(
     private var peopleRepository: PeopleRepository,
     mainDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
