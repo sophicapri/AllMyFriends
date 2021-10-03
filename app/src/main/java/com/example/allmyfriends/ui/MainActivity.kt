@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.allmyfriends.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.*
@@ -23,15 +24,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setupRecyclerView()
         observeConnectivity()
+        setupRecyclerView()
     }
 
     private fun observeConnectivity() {
         lifecycleScope.launchWhenStarted {
             ReactiveNetwork().observeNetworkConnectivity(this@MainActivity).collectLatest {
-                Log.d(TAG, "observeConnectivity: available ? = ${it.available}")
-                viewModel.isInternetAvalaible.emit(it.available)
+                viewModel.isInternetAvailable.emit(it.available)
             }
         }
     }
@@ -39,12 +39,15 @@ class MainActivity : AppCompatActivity() {
     private fun setupRecyclerView() {
         val linearLayoutManager = LinearLayoutManager(this@MainActivity)
         adapter = PersonListAdapter()
-       // adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
+        //adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
         with(binding) {
             recyclerView.layoutManager = linearLayoutManager
             recyclerView.adapter = adapter
+            swipeRefresh.setOnRefreshListener {
+                adapter.refresh()
+                swipeRefresh.isRefreshing = false
+            }
         }
-
         displayData(linearLayoutManager)
     }
 

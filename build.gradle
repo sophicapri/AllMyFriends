@@ -24,6 +24,7 @@ ext {
     constraintLayoutVersion = '2.1.1'
     hiltVersion = '2.39.1'
     recyclerViewVersion = "1.3.0-alpha01"
+    swipeRefreshVersion = "1.1.0"
     hiltAndroidXVersion = '1.0.0-alpha03'
     lifecycleVersion = '2.4.0-beta01'
     retrofitVersion = "2.9.0"

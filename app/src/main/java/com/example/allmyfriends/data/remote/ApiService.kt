@@ -6,7 +6,7 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-    @GET("api/?seed=myset")
+    @GET("api/?")
     suspend fun queryData(
         @Query("page")page: Int,
         @Query("results")pageSize: Int
