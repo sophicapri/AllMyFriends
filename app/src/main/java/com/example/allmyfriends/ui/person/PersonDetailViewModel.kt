@@ -12,7 +12,4 @@ class PersonDetailViewModel @Inject constructor(
     private var peopleRepository: PeopleRepository
 ): ViewModel() {
 
-    fun getPersonById(personId: Long) : Flow<Person>{
-       return peopleRepository.getPersonById(personId)
-    }
 }

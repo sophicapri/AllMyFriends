@@ -36,8 +36,14 @@ class PersonDetailFragment : Fragment() {
 
     private fun displayPerson() {
         val person = PersonDetailFragmentArgs.fromBundle(requireArguments()).person
-        Log.d(TAG, "displayPerson: person = ${person.name.first}")
         binding.personName.text = person.name.first
+
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {

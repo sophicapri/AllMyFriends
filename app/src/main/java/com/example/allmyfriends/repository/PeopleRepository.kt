@@ -25,10 +25,6 @@ class PeopleRepository(private var service: ApiService, var db: AllMyFriendsData
         ).flow
     }
 
-    fun getPersonById(personId: Long) : Flow<Person>{
-        return personDao.getPersonById(personId)
-    }
-
     companion object {
         private const val PAGE_SIZE = 20
     }

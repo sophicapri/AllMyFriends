@@ -14,9 +14,6 @@ interface PersonDao {
     @Query("SELECT * FROM people")
     fun getPeople(): PagingSource<Int, Person>
 
-    @Query("SELECT * FROM people WHERE id = :personId")
-    fun getPersonById(personId: Long) : Flow<Person>
-
     @Query("DELETE FROM people")
     fun clearPeople()
 }

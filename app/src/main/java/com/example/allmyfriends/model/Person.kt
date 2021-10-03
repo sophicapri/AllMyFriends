@@ -14,12 +14,12 @@ import kotlinx.parcelize.RawValue
 @Entity(tableName = "people")
 data class Person(
     @PrimaryKey(autoGenerate = true) var id: Long = 0,
-    var name: @RawValue Name,
-    var picture: @RawValue Picture,
-    var location: @RawValue Location,
+    var name: Name,
+    var picture: Picture,
+    var location: Location,
     var nationality: String,
     val email: String,
-    val dateOfBirth: @RawValue Dob,
+    val dateOfBirth: Dob,
     val cell: String,
     val phone: String,
     val gender: String,
