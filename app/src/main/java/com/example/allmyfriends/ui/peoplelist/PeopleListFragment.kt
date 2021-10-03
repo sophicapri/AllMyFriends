@@ -90,6 +90,7 @@ class PeopleListFragment: Fragment(), PeopleListAdapter.OnPersonClickListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.swipeRefresh.removeAllViews()
         _binding = null
     }
 

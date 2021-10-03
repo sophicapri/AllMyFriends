@@ -17,8 +17,6 @@ q
 Aapp/src/main/java/com/example/allmyfriends/model/dto/PersonDto.kt,a/a/aabd0082261a14a93737ec3052930a401d3bd513
 i
 9app/src/main/java/com/example/allmyfriends/util/Result.kt,b/4/b486461d42d3ac5c5edb37a93116fb9a8cd2e033
-<
-build.gradle,f/0/f07866736216be0ee2aba49e392191aeae700a35
 m
 =app/src/main/java/com/example/allmyfriends/ui/MainActivity.kt,7/c/7c137169ee7c42892486a40fbecb061ce84a043b
 

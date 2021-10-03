@@ -30,7 +30,6 @@ class PeopleListAdapter(private var onPersonClickListener: OnPersonClickListener
             itemView.setOnClickListener {
                 onPersonClickListener.onPersonClick(person = person)
             }
-            Log.d("adapter", "bindTo: item name = ${person.name}")
             binding.personName.text =  person.name.first
         }
     }

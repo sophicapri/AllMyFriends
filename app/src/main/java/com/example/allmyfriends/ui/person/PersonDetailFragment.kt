@@ -16,7 +16,7 @@ import kotlin.math.log
 
 @AndroidEntryPoint
 class PersonDetailFragment : Fragment() {
-    private val viewModel by viewModels<PersonDetailViewModel>()
+    //private val viewModel by viewModels<PersonDetailViewModel>()
     private var _binding: FragmentPersonDetailBinding? = null
     private val binding get() = _binding!!
 
@@ -37,8 +37,6 @@ class PersonDetailFragment : Fragment() {
     private fun displayPerson() {
         val person = PersonDetailFragmentArgs.fromBundle(requireArguments()).person
         binding.personName.text = person.name.first
-
-
     }
 
     override fun onDestroyView() {
