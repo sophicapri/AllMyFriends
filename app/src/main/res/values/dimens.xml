@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="corner_radius_cardview">14dp</dimen>
+    <dimen name="margin_profile_pic">16dp</dimen>
+    <dimen name="size_profile_pic">100dp</dimen>
+    <dimen name="margin_name">10dp</dimen>
+    <dimen name="margin_cardview">12dp</dimen>
+    <dimen name="elevation_cardview">8dp</dimen>
+    <dimen name="height_collapsing_toolbar">240dp</dimen>
+    <dimen name="size_large_profile_pic">200dp</dimen>
+    <dimen name="margin_location_icon">24dp</dimen>
+    <dimen name="margin_location">24dp</dimen>
+    <dimen name="margin_start_location">14dp</dimen>
+    <dimen name="margin_top_nat_ic">16dp</dimen>
+    <dimen name="margin_top_default">16dp</dimen>
+    <dimen name="margin_end_default">24dp</dimen>
+    <dimen name="margin_end_separator">32dp</dimen>
+    <dimen name="height_separator">2dp</dimen>
+    <dimen name="top_separator">4dp</dimen>
+    <dimen name="margin_start_phone">12dp</dimen>
+    <dimen name="top_home_phone">8dp</dimen>
+    <dimen name="margin_bottom_home_phone">24dp</dimen>
+    <dimen name="margin_swipe_refresh">6dp</dimen>
 </resources>

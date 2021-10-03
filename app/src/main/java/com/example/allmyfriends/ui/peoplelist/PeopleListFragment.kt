@@ -1,8 +1,6 @@
 package com.example.allmyfriends.ui.peoplelist
 
-import android.opengl.Visibility
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,15 +12,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.example.allmyfriends.R
 import com.example.allmyfriends.databinding.FragmentPeopleListBinding
 import com.example.allmyfriends.model.Person
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import ru.beryukhov.reactivenetwork.ReactiveNetwork
 
 @AndroidEntryPoint
@@ -51,8 +47,8 @@ class PeopleListFragment : Fragment(), PeopleListAdapter.OnPersonClickListener {
     }
 
     private fun observeConnectivity() {
-        snackbar = Snackbar.make(binding.root, "Offline mode", Snackbar.LENGTH_INDEFINITE)
-            .setAction("Dismiss") { snackbar.dismiss() }
+        snackbar = Snackbar.make(binding.root, getString(R.string.offline_mode), Snackbar.LENGTH_INDEFINITE)
+            .setAction(getString(R.string.dismiss)) { snackbar.dismiss() }
         lifecycleScope.launchWhenCreated {
             ReactiveNetwork().observeNetworkConnectivity(requireContext()).collectLatest {
                 if (!it.available)
@@ -65,7 +61,7 @@ class PeopleListFragment : Fragment(), PeopleListAdapter.OnPersonClickListener {
     }
 
     private fun setupRecyclerView() {
-        layoutManager = GridLayoutManager(requireContext(), 2)
+        layoutManager = GridLayoutManager(requireContext(), SPAN_COUNT)
         adapter = PeopleListAdapter(this)
         with(binding) {
             recyclerView.layoutManager = layoutManager
@@ -75,7 +71,7 @@ class PeopleListFragment : Fragment(), PeopleListAdapter.OnPersonClickListener {
                     adapter.refresh()
                 } else
                     Toast.makeText(
-                        requireContext(), "Please connect to the internet to refresh the page",
+                        requireContext(), getString(R.string.reconnect_to_internet),
                         Toast.LENGTH_LONG
                     ).show()
                 swipeRefresh.isRefreshing = false
@@ -84,13 +80,20 @@ class PeopleListFragment : Fragment(), PeopleListAdapter.OnPersonClickListener {
     }
 
     private fun displayData() {
-        lifecycleScope.launch {
-            viewModel.pagingData.collect { pagingData ->
-                adapter.submitData(pagingData)
-            }
+        val loadCompleted = adapter.loadStateFlow
+            .distinctUntilChangedBy { it.refresh }
+            // Only react to cases where REFRESH completes i.e., NotLoading.
+            .map { it.refresh is LoadState.NotLoading }
+
+        lifecycleScope.launchWhenCreated {
+            combine(loadCompleted, viewModel.pagingData, ::Pair)
+                .distinctUntilChangedBy { it.second }
+                .collect { (_, pagingData) ->
+                    adapter.submitData(pagingData)
+                }
         }
 
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenCreated {
             adapter.loadStateFlow.collect { loadState ->
                 // Show loading spinner during initial load or refresh.
                 binding.progressBar.isVisible = loadState.source.refresh is LoadState.Loading
@@ -114,5 +117,7 @@ class PeopleListFragment : Fragment(), PeopleListAdapter.OnPersonClickListener {
 
     companion object {
         private const val TAG = "PeopleListFragment"
+        private const val SPAN_COUNT = 2
+
     }
 }

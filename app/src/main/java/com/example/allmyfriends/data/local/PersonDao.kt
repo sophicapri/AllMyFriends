@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 interface PersonDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPeople(people: List<Person>)//: List<Long>
+    suspend fun insertPeople(people: List<Person>)
 
     @Query("SELECT * FROM people")
     fun getPeople(): PagingSource<Int, Person>

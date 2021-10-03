@@ -64,8 +64,8 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
 
-  /*  // To fix a bug with testing tasks
-    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"*/
+    // To fix a bug with testing tasks
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
 
     // Moshi
     implementation "com.squareup.moshi:moshi:$moshiVersion"

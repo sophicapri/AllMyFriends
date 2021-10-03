@@ -13,12 +13,17 @@ import com.example.allmyfriends.R
 import com.example.allmyfriends.databinding.ItemPersonBinding
 import com.example.allmyfriends.model.Person
 
-class PeopleListAdapter(private var onPersonClickListener: OnPersonClickListener) : PagingDataAdapter<Person, PeopleListAdapter.PersonViewHolder>(
-    DIFF_CALLBACK
-) {
+class PeopleListAdapter(private var onPersonClickListener: OnPersonClickListener) :
+    PagingDataAdapter<Person, PeopleListAdapter.PersonViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonViewHolder {
-        return PersonViewHolder(ItemPersonBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return PersonViewHolder(
+            ItemPersonBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: PersonViewHolder, position: Int) {
@@ -28,7 +33,8 @@ class PeopleListAdapter(private var onPersonClickListener: OnPersonClickListener
         }
     }
 
-    inner class PersonViewHolder(var binding: ItemPersonBinding) : RecyclerView.ViewHolder(binding.root){
+    inner class PersonViewHolder(var binding: ItemPersonBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bindTo(person: Person) {
             itemView.setOnClickListener {
@@ -38,7 +44,11 @@ class PeopleListAdapter(private var onPersonClickListener: OnPersonClickListener
                 .load(person.picture.thumbnail)
                 .apply(RequestOptions.circleCropTransform())
                 .into(binding.personPicture)
-            binding.personName.text =  itemView.context.getString(R.string.person_name, person.name.first, person.name.last)
+            binding.personName.text = itemView.context.getString(
+                R.string.person_name,
+                person.name.first,
+                person.name.last
+            )
         }
     }
 
@@ -55,7 +65,7 @@ class PeopleListAdapter(private var onPersonClickListener: OnPersonClickListener
         }
     }
 
-    interface OnPersonClickListener{
+    interface OnPersonClickListener {
         fun onPersonClick(person: Person)
     }
 }

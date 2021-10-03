@@ -11,5 +11,9 @@
     <string name="email_icon">Email icon</string>
     <string name="home_phone_title">Home :</string>
     <string name="mobile_phone_title">Mobile :</string>
+    <string name="reconnect_to_internet">Please reconnect to the internet to refresh the page</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="offline_mode">Offline mode</string>
+    <string name="phone_icon">Phone icon</string>
 
 </resources>

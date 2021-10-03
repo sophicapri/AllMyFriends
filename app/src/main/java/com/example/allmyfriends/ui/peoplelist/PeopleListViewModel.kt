@@ -19,7 +19,6 @@ class PeopleListViewModel @Inject constructor(
     private var peopleRepository: PeopleRepository,
     mainDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
-    var scrollPosition: Int = 0
     private val job = SupervisorJob()
     private val uiScope = CoroutineScope(mainDispatcher + job)
     private var _pagingData: MutableStateFlow<PagingData<Person>>  = MutableStateFlow(PagingData.empty())
