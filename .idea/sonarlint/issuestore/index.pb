@@ -23,8 +23,6 @@ r
 Bapp/src/main/java/com/example/allmyfriends/data/local/PersonDao.kt,1/a/1ad63782d592cb74d79d37bd04d9fc0af60dafea
 l
 <app/src/main/java/com/example/allmyfriends/model/dto/Name.kt,6/e/6e05404cefbba9581d07050b830c4027d0ef1341
-}
-Mapp/src/main/java/com/example/allmyfriends/ui/person/PersonDetailViewModel.kt,3/4/344fe978e04d1b74d1eb715a5a3ae7841ecda3a1
 <
 build.gradle,f/0/f07866736216be0ee2aba49e392191aeae700a35
 t

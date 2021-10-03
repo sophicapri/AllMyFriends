@@ -21,6 +21,7 @@ class PeopleListViewModel @Inject constructor(
     private var peopleRepository: PeopleRepository,
     mainDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
+    var scrollPosition: Int = 0
     private val job = SupervisorJob()
     private val uiScope = CoroutineScope(mainDispatcher + job)
     private var _pagingData: MutableStateFlow<PagingData<Person>>  = MutableStateFlow(PagingData.empty())
@@ -30,10 +31,8 @@ class PeopleListViewModel @Inject constructor(
     init { _pagingData = getUsers() }
 
     private fun getUsers(): MutableStateFlow<PagingData<Person>> {
-        Log.d(TAG, "getUsers: hello")
         uiScope.launch {
             isInternetAvailable.collectLatest {
-                Log.d(TAG, "getUsers: internet value = $it")
                 if (it)
                     peopleRepository.getPeopleRemote().cachedIn(uiScope).collect { pagingData ->
                         _pagingData.emit(pagingData)
