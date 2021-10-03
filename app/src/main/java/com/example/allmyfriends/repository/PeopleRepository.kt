@@ -10,19 +10,23 @@ import kotlinx.coroutines.flow.Flow
 class PeopleRepository(private var service: ApiService, var db: AllMyFriendsDatabase) {
     private var personDao: PersonDao = db.personDao()
 
-       fun getUsersLocal(): Flow<PagingData<Person>> {
+       fun getPeopleLocal(): Flow<PagingData<Person>> {
            return Pager(
                config = PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false),
                pagingSourceFactory = { personDao.getPeople() }
            ).flow
        }
 
-    fun getUsersRemote(): Flow<PagingData<Person>> {
+    fun getPeopleRemote(): Flow<PagingData<Person>> {
         @OptIn(ExperimentalPagingApi::class)
         return Pager(
             config = PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false),
             pagingSourceFactory = { PeopleRemotePagingSource(apiService = service, db) }
         ).flow
+    }
+
+    fun getPersonById(personId: Long) : Flow<Person>{
+        return personDao.getPersonById(personId)
     }
 
     companion object {

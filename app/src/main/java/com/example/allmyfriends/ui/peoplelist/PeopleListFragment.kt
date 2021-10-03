@@ -1,4 +1,4 @@
-package com.example.allmyfriends.ui
+package com.example.allmyfriends.ui.peoplelist
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,8 +11,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.allmyfriends.databinding.ActivityMainBinding
 import com.example.allmyfriends.databinding.FragmentPeopleListBinding
+import com.example.allmyfriends.model.Person
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -42,7 +42,7 @@ class PeopleListFragment: Fragment(), PeopleListAdapter.OnPersonClickListener {
     }
 
     private fun observeConnectivity() {
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launchWhenCreated {
             ReactiveNetwork().observeNetworkConnectivity(requireContext()).collectLatest {
                 viewModel.isInternetAvailable.emit(it.available)
             }
@@ -71,7 +71,7 @@ class PeopleListFragment: Fragment(), PeopleListAdapter.OnPersonClickListener {
 
         val shouldScrollToTop = notLoading.distinctUntilChanged()
 
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenCreated {
             combine(shouldScrollToTop, viewModel.pagingData, ::Pair)
                 .distinctUntilChangedBy { it.second }
                 .collectLatest { (shouldScroll, pagingData) ->
@@ -82,10 +82,10 @@ class PeopleListFragment: Fragment(), PeopleListAdapter.OnPersonClickListener {
         }
     }
 
-    override fun onPersonClick(personId: Long) {
+    override fun onPersonClick(person: Person) {
         findNavController()
             .navigate(PeopleListFragmentDirections
-                .actionPeopleListFragmentToPersonDetailFragment(personId = personId))
+                .actionPeopleListFragmentToPersonDetailFragment(person = person))
     }
 
     override fun onDestroyView() {

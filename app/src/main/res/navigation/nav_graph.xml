@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/peopleListFragment"
-        android:name="com.example.allmyfriends.ui.PeopleListFragment"
+        android:name="com.example.allmyfriends.ui.peoplelist.PeopleListFragment"
         android:label="PeopleListFragment"
         tools:layout="@layout/fragment_people_list">
         <action
@@ -21,11 +21,11 @@
 
     <fragment
         android:id="@+id/personDetailFragment"
-        android:name="com.example.allmyfriends.ui.PersonDetailFragment"
+        android:name="com.example.allmyfriends.ui.person.PersonDetailFragment"
         android:label="PersonDetailFragment"
         tools:layout="@layout/fragment_person_detail">
         <argument
-            android:name="personId"
-            app:argType="long"/>
+            android:name="person"
+            app:argType="com.example.allmyfriends.model.Person"/>
     </fragment>
 </navigation>

@@ -1,4 +1,4 @@
-package com.example.allmyfriends.ui
+package com.example.allmyfriends.ui.peoplelist
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.allmyfriends.databinding.ItemPersonBinding
 import com.example.allmyfriends.model.Person
 
-class PeopleListAdapter(private var onPersonClickListener: OnPersonClickListener) : PagingDataAdapter<Person, PeopleListAdapter.PersonViewHolder>(DIFF_CALLBACK) {
+class PeopleListAdapter(private var onPersonClickListener: OnPersonClickListener) : PagingDataAdapter<Person, PeopleListAdapter.PersonViewHolder>(
+    DIFF_CALLBACK
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonViewHolder {
         return PersonViewHolder(ItemPersonBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -26,7 +28,7 @@ class PeopleListAdapter(private var onPersonClickListener: OnPersonClickListener
 
         fun bindTo(person: Person) {
             itemView.setOnClickListener {
-                onPersonClickListener.onPersonClick(personId = person.id)
+                onPersonClickListener.onPersonClick(person = person)
             }
             Log.d("adapter", "bindTo: item name = ${person.name}")
             binding.personName.text =  person.name.first
@@ -47,6 +49,6 @@ class PeopleListAdapter(private var onPersonClickListener: OnPersonClickListener
     }
 
     interface OnPersonClickListener{
-        fun onPersonClick(personId : Long)
+        fun onPersonClick(person: Person)
     }
 }

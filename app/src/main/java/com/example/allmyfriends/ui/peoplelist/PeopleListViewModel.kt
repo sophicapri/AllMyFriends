@@ -1,4 +1,4 @@
-package com.example.allmyfriends.ui
+package com.example.allmyfriends.ui.peoplelist
 
 import androidx.lifecycle.*
 import androidx.paging.PagingData
@@ -32,11 +32,11 @@ class PeopleListViewModel @Inject constructor(
         uiScope.launch {
             isInternetAvailable.collectLatest {
                 if (it)
-                    peopleRepository.getUsersRemote().cachedIn(uiScope).collect { pagingData ->
+                    peopleRepository.getPeopleRemote().cachedIn(uiScope).collect { pagingData ->
                         _pagingData.emit(pagingData)
                     }
                 else
-                    peopleRepository.getUsersLocal().cachedIn(uiScope).collect { pagingData ->
+                    peopleRepository.getPeopleLocal().cachedIn(uiScope).collect { pagingData ->
                         _pagingData.emit(pagingData)
                     }
             }
