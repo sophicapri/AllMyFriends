@@ -28,7 +28,7 @@ constructor(private val apiService: ApiService, var db: AllMyFriendsDatabase) :
 
             val people = apiService.queryData(position, params.loadSize).toPersonDomainModel()
 
-            Log.d(TAG, "load: page index = ${params.key}")
+            // Cache data in RoomDatabase
             ioScope.launch {
                 db.withTransaction {
                     if (params.key == STARTING_INDEX)

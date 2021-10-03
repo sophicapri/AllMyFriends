@@ -50,7 +50,6 @@ class PeopleListViewModel @Inject constructor(
     override fun onCleared() {
         super.onCleared()
         job.cancel()
-
     }
 
     companion object {

@@ -1,5 +1,6 @@
 package com.example.allmyfriends.ui.peoplelist
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,7 +9,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
@@ -17,6 +20,8 @@ import com.example.allmyfriends.databinding.FragmentPeopleListBinding
 import com.example.allmyfriends.model.Person
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.beryukhov.reactivenetwork.ReactiveNetwork
@@ -28,6 +33,11 @@ class PeopleListFragment : Fragment(), PeopleListAdapter.OnPersonClickListener {
     private val binding get() = _binding!!
     private lateinit var adapter: PeopleListAdapter
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -77,7 +87,7 @@ class PeopleListFragment : Fragment(), PeopleListAdapter.OnPersonClickListener {
     }
 
     private fun setupRecyclerView() {
-        val linearLayoutManager = GridLayoutManager(requireContext(), 2)
+        val linearLayoutManager = GridLayoutManager(requireContext(), 3)
         adapter = PeopleListAdapter(this)
         with(binding) {
             recyclerView.layoutManager = linearLayoutManager
@@ -91,8 +101,7 @@ class PeopleListFragment : Fragment(), PeopleListAdapter.OnPersonClickListener {
 
     private fun displayData() {
         Log.d(TAG, "displayData: ")
-
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launch {
             viewModel.pagingData
                 .distinctUntilChanged()
                 .collectLatest { pagingData ->
