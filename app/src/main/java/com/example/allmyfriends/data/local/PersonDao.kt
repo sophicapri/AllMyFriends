@@ -5,7 +5,7 @@ import androidx.room.*
 import com.example.allmyfriends.model.Person
 
 @Dao
-interface UserDao {
+interface PersonDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPeople(people: List<Person>): List<Long>
@@ -14,5 +14,5 @@ interface UserDao {
     fun getPeople(): PagingSource<Int, Person>
 
     @Query("DELETE FROM people")
-    fun clearUsers()
+    fun clearPeople()
 }

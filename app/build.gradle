@@ -71,7 +71,12 @@ dependencies {
     implementation "com.squareup.moshi:moshi-kotlin:$moshiVersion"
     implementation "com.squareup.moshi:moshi-adapters:$moshiVersion"
 
+    // Paging3
     implementation "androidx.paging:paging-runtime-ktx:3.0.1"
+
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 
     // Retrofit
     implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
@@ -109,5 +114,6 @@ dependencies {
     androidTestImplementation "io.mockk:mockk-android:$mockkVersion"
     testImplementation "io.mockk:mockk:$mockkVersion"
 
+    // FlowReactiveNetwork
     implementation 'ru.beryukhov:flowreactivenetwork:1.0.4'
 }

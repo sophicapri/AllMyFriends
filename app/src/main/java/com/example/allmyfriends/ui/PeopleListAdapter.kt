@@ -2,17 +2,14 @@ package com.example.allmyfriends.ui
 
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.NonNull
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.allmyfriends.databinding.ItemPersonBinding
 import com.example.allmyfriends.model.Person
 
-class PersonListAdapter : PagingDataAdapter<Person, PersonListAdapter.PersonViewHolder>(DIFF_CALLBACK) {
+class PeopleListAdapter : PagingDataAdapter<Person, PeopleListAdapter.PersonViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonViewHolder {
         return PersonViewHolder(ItemPersonBinding.inflate(LayoutInflater.from(parent.context), parent, false))

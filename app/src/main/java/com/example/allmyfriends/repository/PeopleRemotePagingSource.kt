@@ -1,13 +1,12 @@
 package com.example.allmyfriends.repository
 
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import androidx.room.withTransaction
 import com.example.allmyfriends.data.local.AllMyFriendsDatabase
 import com.example.allmyfriends.data.remote.ApiService
 import com.example.allmyfriends.model.Person
+import com.example.allmyfriends.model.dto.toPersonDomainModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -16,7 +15,7 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class UserRemotePagingSource @Inject
+class PeopleRemotePagingSource @Inject
 constructor(private val apiService: ApiService, var db: AllMyFriendsDatabase) :
     PagingSource<Int, Person>() {
     companion object {
@@ -29,20 +28,20 @@ constructor(private val apiService: ApiService, var db: AllMyFriendsDatabase) :
             val job = SupervisorJob()
             val ioScope = CoroutineScope(Dispatchers.IO + job)
 
-            val users = apiService.queryData(position, params.loadSize).users.map { it.toDomainModel() }
+            val people = apiService.queryData(position, params.loadSize).toPersonDomainModel()
 
             ioScope.launch {
                 db.withTransaction {
                     if (params.key == STARTING_INDEX)
-                        db.personDao().clearUsers()
-                    db.personDao().insertPeople(users)
+                        db.personDao().clearPeople()
+                    db.personDao().insertPeople(people)
                 }
             }
 
             LoadResult.Page(
-                data = users,
+                data = people,
                 prevKey = if (position == STARTING_INDEX) null else position - 1,
-                nextKey = if (users.isEmpty()) null else position + 1
+                nextKey = if (people.isEmpty()) null else position + 1
             )
         } catch (exception: IOException) {
             LoadResult.Error(exception)

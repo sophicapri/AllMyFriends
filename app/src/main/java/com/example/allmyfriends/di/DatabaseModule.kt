@@ -5,7 +5,7 @@ import androidx.room.Room
 import com.example.allmyfriends.data.TypeConverter
 import com.example.allmyfriends.data.local.AllMyFriendsDatabase
 import com.example.allmyfriends.data.local.AllMyFriendsDatabase.Companion.DATABASE_NAME
-import com.example.allmyfriends.data.local.UserDao
+import com.example.allmyfriends.data.local.PersonDao
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -30,7 +30,7 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun providePersonDao(database: AllMyFriendsDatabase): UserDao {
+    fun providePersonDao(database: AllMyFriendsDatabase): PersonDao {
         return database.personDao()
     }
 }

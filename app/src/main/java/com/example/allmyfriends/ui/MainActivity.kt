@@ -2,12 +2,11 @@ package com.example.allmyfriends.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.allmyfriends.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.*
@@ -18,7 +17,7 @@ import ru.beryukhov.reactivenetwork.ReactiveNetwork
 class MainActivity : AppCompatActivity() {
     private val viewModel by viewModels<MainActivityViewModel>()
     private lateinit var binding: ActivityMainBinding
-    private lateinit var adapter: PersonListAdapter
+    private lateinit var adapter: PeopleListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,8 +36,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        val linearLayoutManager = LinearLayoutManager(this@MainActivity)
-        adapter = PersonListAdapter()
+        val linearLayoutManager = GridLayoutManager(this@MainActivity, 2)
+        adapter = PeopleListAdapter()
         //adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
         with(binding) {
             recyclerView.layoutManager = linearLayoutManager

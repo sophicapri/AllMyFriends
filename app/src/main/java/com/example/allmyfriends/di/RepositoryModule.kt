@@ -1,7 +1,6 @@
 package com.example.allmyfriends.di
 
 import com.example.allmyfriends.data.local.AllMyFriendsDatabase
-import com.example.allmyfriends.data.local.UserDao
 import com.example.allmyfriends.data.remote.ApiService
 import com.example.allmyfriends.repository.PeopleRepository
 import dagger.Module
