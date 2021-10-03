@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.allmyfriends.databinding.ItemPersonBinding
 import com.example.allmyfriends.model.Person
 
@@ -30,6 +32,10 @@ class PeopleListAdapter(private var onPersonClickListener: OnPersonClickListener
             itemView.setOnClickListener {
                 onPersonClickListener.onPersonClick(person = person)
             }
+            /*Glide.with(itemView.context)
+                .load(person.picture.thumbnail)
+                .apply(RequestOptions.centerCropTransform())
+                .into(imageView)*/
             binding.personName.text =  person.name.first
         }
     }

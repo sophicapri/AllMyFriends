@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.allmyfriends.databinding.FragmentPersonDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +18,6 @@ import kotlin.math.log
 
 @AndroidEntryPoint
 class PersonDetailFragment : Fragment() {
-    //private val viewModel by viewModels<PersonDetailViewModel>()
     private var _binding: FragmentPersonDetailBinding? = null
     private val binding get() = _binding!!
 
@@ -36,7 +37,10 @@ class PersonDetailFragment : Fragment() {
 
     private fun displayPerson() {
         val person = PersonDetailFragmentArgs.fromBundle(requireArguments()).person
-        binding.personName.text = person.name.first
+        Glide.with(requireContext())
+            .load(person.picture.large)
+            .apply(RequestOptions.circleCropTransform())
+            .into(binding.profilePicture)
     }
 
     override fun onDestroyView() {
