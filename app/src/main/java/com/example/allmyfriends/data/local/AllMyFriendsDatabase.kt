@@ -6,7 +6,7 @@ import androidx.room.TypeConverters
 import com.example.allmyfriends.data.TypeConverter
 import com.example.allmyfriends.model.Person
 
-@Database(entities = [Person::class], version = 7, exportSchema = false)
+@Database(entities = [Person::class], version = 8, exportSchema = false)
 @TypeConverters(TypeConverter::class)
 abstract class AllMyFriendsDatabase: RoomDatabase() {
     abstract fun personDao(): UserDao

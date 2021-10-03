@@ -16,7 +16,7 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class UserPagingSource @Inject
+class UserRemotePagingSource @Inject
 constructor(private val apiService: ApiService, var db: AllMyFriendsDatabase) :
     PagingSource<Int, Person>() {
     companion object {

@@ -20,7 +20,6 @@ class PersonListAdapter : PagingDataAdapter<Person, PersonListAdapter.PersonView
 
     override fun onBindViewHolder(holder: PersonViewHolder, position: Int) {
         val person = getItem(position)
-        Log.d("Adapter", "item position = $position ")
         if (person != null) {
             holder.bindTo(person)
         }
@@ -28,8 +27,7 @@ class PersonListAdapter : PagingDataAdapter<Person, PersonListAdapter.PersonView
 
     inner class PersonViewHolder(var binding: ItemPersonBinding) : RecyclerView.ViewHolder(binding.root){
         fun bindTo(person: Person) {
-            Log.d("Adapter", "item count = $itemCount ")
-            Log.d("Adapter", "person name = ${person.name.first} ")
+            Log.d("adapter", "bindTo: item name = ${person.name}")
             binding.personName.text =  person.name.first
         }
     }

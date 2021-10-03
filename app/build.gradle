@@ -57,7 +57,6 @@ dependencies {
     // Architecture components
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
 
     //Kotlin Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
@@ -108,4 +107,6 @@ dependencies {
     // MockK
     androidTestImplementation "io.mockk:mockk-android:$mockkVersion"
     testImplementation "io.mockk:mockk:$mockkVersion"
+
+    implementation 'ru.beryukhov:flowreactivenetwork:1.0.4'
 }
