@@ -11,49 +11,226 @@
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="240dp"
-        android:background="#D8FFFFFF">
+        android:background="@color/white">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/toolbar_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:title="Ms Alexandra Martinez"
+            android:background="@drawable/bkg_person_detail"
             app:collapsedTitleTextAppearance="@style/collapsingToolbarLayoutTitleColor"
             app:contentScrim="@android:color/holo_blue_dark"
             app:expandedTitleTextAppearance="@style/expandedToolbarTitleColor"
-            android:background="@drawable/bkg_person_detail"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            tools:title="@tools:sample/full_names">
 
             <ImageView
                 android:id="@+id/profile_picture"
-                android:layout_gravity="center"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                tools:background="@tools:sample/avatars"
+                android:layout_gravity="center"
                 android:contentDescription="@string/profile_picture"
                 android:fitsSystemWindows="true"
-                app:layout_collapseMode="parallax" />
+                app:layout_collapseMode="parallax"
+                tools:background="@tools:sample/avatars" />
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:navigationIconTint="@color/white"
-                app:navigationIcon="@drawable/ic_baseline_arrow_back_24" />
+                app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+                app:navigationIconTint="@color/white" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/nested_scroll_view"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/content_profile"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/location_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:contentDescription="@string/location_icon"
+                android:src="@drawable/ic_baseline_location_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/location_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@+id/location_icon"
+                app:layout_constraintTop_toTopOf="@+id/location_icon"
+                tools:text="22 street Las Vegas 28100" />
+
+            <ImageView
+                android:id="@+id/nationality_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/nationality_icon"
+                android:src="@drawable/ic_nationality"
+                app:layout_constraintEnd_toEndOf="@+id/location_icon"
+                app:layout_constraintStart_toStartOf="@+id/location_icon"
+                app:layout_constraintTop_toBottomOf="@+id/location_icon" />
+
+            <TextView
+                android:id="@+id/nationality"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/nationality_icon"
+                app:layout_constraintStart_toStartOf="@+id/location"
+                app:layout_constraintTop_toTopOf="@+id/nationality_icon"
+                tools:text="NL" />
+
+            <ImageView
+                android:id="@+id/birthday_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/birthday_icon"
+                android:src="@drawable/ic_birthday"
+                app:layout_constraintStart_toStartOf="@+id/nationality_icon"
+                app:layout_constraintTop_toBottomOf="@+id/nationality_icon" />
+
+            <TextView
+                android:id="@+id/birthday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/birthday_icon"
+                app:layout_constraintStart_toStartOf="@+id/nationality"
+                app:layout_constraintTop_toTopOf="@+id/birthday_icon"
+                tools:text="@tools:sample/date/ddmmyy" />
+
+            <ImageView
+                android:id="@+id/gender_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/gender_icon"
+                android:src="@drawable/ic_gender"
+                app:layout_constraintStart_toStartOf="@+id/birthday_icon"
+                app:layout_constraintTop_toBottomOf="@+id/birthday_icon" />
+
+            <TextView
+                android:id="@+id/gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/gender_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="@+id/birthday"
+                app:layout_constraintTop_toTopOf="@+id/gender_icon"
+                tools:text="Woman" />
+
+            <TextView
+                android:id="@+id/contact_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/contact"
+                app:layout_constraintVertical_bias="0.2"
+                android:textAppearance="@style/ContactTitleTextAppearance"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/gender_icon"
+                app:layout_constraintTop_toBottomOf="@+id/gender_icon" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/gradient_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/contact_title" />
+
+            <ImageView
+                android:id="@+id/email_ic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/ic_baseline_email_24"
+                android:contentDescription="@string/email_icon"
+                app:layout_constraintStart_toStartOf="@+id/contact_title"
+                app:layout_constraintTop_toBottomOf="@+id/view" />
+
+
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                tools:text="jennie.doe@email.com"
+                app:layout_constraintBottom_toBottomOf="@+id/email_ic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/gender"
+                app:layout_constraintTop_toTopOf="@+id/email_ic" />
+
+            <ImageView
+                android:id="@+id/phone_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/ic_baseline_phone_24"
+                app:layout_constraintStart_toStartOf="@+id/email_ic"
+                app:layout_constraintTop_toBottomOf="@+id/email_ic" />
+
+            <TextView
+                android:id="@+id/title_cell_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mobile_phone_title"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="@+id/email"
+                app:layout_constraintTop_toTopOf="@+id/phone_icon" />
+
+            <TextView
+                android:id="@+id/cell_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                app:layout_constraintBottom_toBottomOf="@+id/title_cell_phone"
+                app:layout_constraintStart_toEndOf="@+id/title_cell_phone"
+                app:layout_constraintTop_toTopOf="@+id/title_cell_phone"
+                tools:text="@tools:sample/us_phones" />
+
+            <TextView
+                android:id="@+id/title_home_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/home_phone_title"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="@+id/title_cell_phone"
+                app:layout_constraintTop_toBottomOf="@+id/title_cell_phone" />
+
+            <TextView
+                android:id="@+id/home_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/title_home_phone"
+                app:layout_constraintStart_toStartOf="@+id/cell_phone"
+                app:layout_constraintTop_toTopOf="@+id/title_home_phone"
+                tools:text="@tools:sample/us_phones" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
