@@ -118,6 +118,6 @@ dependencies {
     // FlowReactiveNetwork
     implementation 'ru.beryukhov:flowreactivenetwork:1.0.4'
 
-    // LeakCanary
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
+  /*  // LeakCanary
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"*/
 }

@@ -1,5 +1,6 @@
 package com.example.allmyfriends.ui.peoplelist
 
+import android.util.Log
 import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -29,8 +30,10 @@ class PeopleListViewModel @Inject constructor(
     init { _pagingData = getUsers() }
 
     private fun getUsers(): MutableStateFlow<PagingData<Person>> {
+        Log.d(TAG, "getUsers: hello")
         uiScope.launch {
             isInternetAvailable.collectLatest {
+                Log.d(TAG, "getUsers: internet value = $it")
                 if (it)
                     peopleRepository.getPeopleRemote().cachedIn(uiScope).collect { pagingData ->
                         _pagingData.emit(pagingData)
@@ -47,5 +50,10 @@ class PeopleListViewModel @Inject constructor(
     override fun onCleared() {
         super.onCleared()
         job.cancel()
+
+    }
+
+    companion object {
+        private const val TAG = "PeopleListViewModel"
     }
 }

@@ -1,9 +1,11 @@
 package com.example.allmyfriends.ui.peoplelist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.allmyfriends.databinding.FragmentPeopleListBinding
 import com.example.allmyfriends.model.Person
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -31,6 +34,7 @@ class PeopleListFragment: Fragment(), PeopleListAdapter.OnPersonClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.d(TAG, "onCreateView: ")
         _binding = FragmentPeopleListBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -39,11 +43,32 @@ class PeopleListFragment: Fragment(), PeopleListAdapter.OnPersonClickListener {
         super.onViewCreated(view, savedInstanceState)
         observeConnectivity()
         setupRecyclerView()
+        Log.d(TAG, "onViewCreated: ")
     }
 
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onStart: ")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause: ")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume: ")
+    }
+    
     private fun observeConnectivity() {
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launchWhenStarted {
             ReactiveNetwork().observeNetworkConnectivity(requireContext()).collectLatest {
+                val snackbar = Snackbar.make(binding.root, "Offline mode", Snackbar.LENGTH_INDEFINITE)
+                if (!it.available)
+                    snackbar.show()
+                else if (it.available)
+                    snackbar.dismiss()
                 viewModel.isInternetAvailable.emit(it.available)
             }
         }
@@ -60,24 +85,17 @@ class PeopleListFragment: Fragment(), PeopleListAdapter.OnPersonClickListener {
                 swipeRefresh.isRefreshing = false
             }
         }
-        displayData(linearLayoutManager)
+        displayData()
     }
 
-    private fun displayData(linearLayoutManager: LinearLayoutManager) {
-        val notLoading = adapter.loadStateFlow
-            .distinctUntilChangedBy { it.refresh }
-            // Only react to cases where Remote REFRESH completes i.e., NotLoading.
-            .map { it.refresh is LoadState.NotLoading }
-
-        val shouldScrollToTop = notLoading.distinctUntilChanged()
+    private fun displayData() {
+        Log.d(TAG, "displayData: ")
 
         lifecycleScope.launchWhenCreated {
-            combine(shouldScrollToTop, viewModel.pagingData, ::Pair)
-                .distinctUntilChangedBy { it.second }
-                .collectLatest { (shouldScroll, pagingData) ->
+            viewModel.pagingData
+                .distinctUntilChanged()
+                .collectLatest { pagingData ->
                     adapter.submitData(pagingData)
-                    // Scroll only after the data has been submitted to the adapter
-                    if (shouldScroll) linearLayoutManager.scrollToPosition(0)
                 }
         }
     }

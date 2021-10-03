@@ -1,5 +1,6 @@
 package com.example.allmyfriends.repository
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import androidx.room.withTransaction
@@ -18,9 +19,6 @@ import javax.inject.Inject
 class PeopleRemotePagingSource @Inject
 constructor(private val apiService: ApiService, var db: AllMyFriendsDatabase) :
     PagingSource<Int, Person>() {
-    companion object {
-        const val STARTING_INDEX = 1
-    }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Person> {
         val position = params.key ?: STARTING_INDEX
@@ -30,6 +28,7 @@ constructor(private val apiService: ApiService, var db: AllMyFriendsDatabase) :
 
             val people = apiService.queryData(position, params.loadSize).toPersonDomainModel()
 
+            Log.d(TAG, "load: page index = ${params.key}")
             ioScope.launch {
                 db.withTransaction {
                     if (params.key == STARTING_INDEX)
@@ -55,5 +54,10 @@ constructor(private val apiService: ApiService, var db: AllMyFriendsDatabase) :
             state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
                 ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
         }
+    }
+
+    companion object {
+        const val STARTING_INDEX = 1
+        private const val TAG = "PeoplePagingSource"
     }
 }

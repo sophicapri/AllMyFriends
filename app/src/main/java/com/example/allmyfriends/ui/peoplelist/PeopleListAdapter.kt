@@ -3,11 +3,13 @@ package com.example.allmyfriends.ui.peoplelist
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.allmyfriends.R
 import com.example.allmyfriends.databinding.ItemPersonBinding
 import com.example.allmyfriends.model.Person
 
@@ -32,11 +34,11 @@ class PeopleListAdapter(private var onPersonClickListener: OnPersonClickListener
             itemView.setOnClickListener {
                 onPersonClickListener.onPersonClick(person = person)
             }
-            /*Glide.with(itemView.context)
+            Glide.with(itemView.context)
                 .load(person.picture.thumbnail)
-                .apply(RequestOptions.centerCropTransform())
-                .into(imageView)*/
-            binding.personName.text =  person.name.first
+                .apply(RequestOptions.circleCropTransform())
+                .into(binding.personPicture)
+            binding.personName.text =  itemView.context.getString(R.string.person_name, person.name.first, person.name.last)
         }
     }
 
