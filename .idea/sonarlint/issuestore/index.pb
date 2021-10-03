@@ -13,8 +13,6 @@ p
 Mapp/src/main/java/com/example/allmyfriends/data/local/AllMyFriendsDatabase.kt,6/5/659ca2f5b2edf166376e18d41f51becd8b6a008e
 i
 9app/src/main/java/com/example/allmyfriends/util/Result.kt,b/4/b486461d42d3ac5c5edb37a93116fb9a8cd2e033
-k
-;app/src/main/java/com/example/allmyfriends/model/dto/Dob.kt,f/0/f0212c8d5c7acd064f1d4fca5aa1419078ec7a4e
 s
 Capp/src/main/java/com/example/allmyfriends/model/dto/Coordinates.kt,e/9/e990af784865dccd00fab19318dbf89d9b8c393c
 p

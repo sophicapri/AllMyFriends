@@ -1,11 +1,9 @@
 package com.example.allmyfriends.ui.person
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
@@ -13,13 +11,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.allmyfriends.R
 import com.example.allmyfriends.databinding.FragmentPersonDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
-import java.sql.Timestamp
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.time.Instant
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.util.*
 
 @AndroidEntryPoint
 class PersonDetailFragment : Fragment() {
@@ -61,17 +52,7 @@ class PersonDetailFragment : Fragment() {
                 person.location.state
             )
             nationality.text = person.nationality
-
-
-            val date = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                Date.from(Instant.parse(person.dateOfBirth.date))
-            } else {
-                val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US)
-                format.parse(person.dateOfBirth.date)
-            }
-            val df = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault())
-            birthday.text = df.format(date)
-
+            birthday.text = person.dateOfBirth.formattedDate()
             gender.text = person.gender.replaceFirstChar { it.titlecase() }
             email.text = person.email
             cellPhone.text = person.cell
