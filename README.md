@@ -16,7 +16,7 @@ Technical Stack
   * [Navigation][14] 
   * [View Binding][11]
   * [Kotlin Flow][13]
-  * [Paging 3][7]
+  * [Paging][7]
   * [Retrofit][5] - REST client.
   * [Room][16] - For caching remote data. In this projet I did not use [RemoteMediator][77] to cache data, breaking the Single Source of Truth rule. 
     Once I'll manage to finally make it work or find an alternative, I will use that instead in the futur. 
