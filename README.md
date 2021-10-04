@@ -4,6 +4,7 @@ All My Friends
 =================
 
 An app that displays a list of people and shows their profile.
+Available in offline mode, and in landscape mode.
 
 Technical Stack
 --------------
