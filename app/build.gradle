@@ -27,6 +27,7 @@ android {
         }
     }
     compileOptions {
+        coreLibraryDesugaringEnabled = true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -34,10 +35,6 @@ android {
         jvmTarget = '1.8'
         freeCompilerArgs += ["-Xopt-in=kotlin.RequiresOptIn"]
     }
-/*
-    hilt {
-        enableExperimentalClasspathAggregation = true
-    }*/
 
     android.buildFeatures.viewBinding = true
 }
@@ -73,11 +70,11 @@ dependencies {
     implementation "com.squareup.moshi:moshi-adapters:$moshiVersion"
 
     // Paging3
-    implementation "androidx.paging:paging-runtime-ktx:3.0.1"
+    implementation "androidx.paging:paging-runtime-ktx:$pagingVersion"
 
     // Glide
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
 
     // Retrofit
     implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
@@ -116,7 +113,11 @@ dependencies {
     testImplementation "io.mockk:mockk:$mockkVersion"
 
     // FlowReactiveNetwork
-    implementation 'ru.beryukhov:flowreactivenetwork:1.0.4'
+    implementation "ru.beryukhov:flowreactivenetwork:$reactiveNetworkVersion"
+
+    implementation "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2"
+
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 
     // LeakCanary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"

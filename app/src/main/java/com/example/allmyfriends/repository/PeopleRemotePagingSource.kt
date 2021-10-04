@@ -6,7 +6,6 @@ import androidx.room.withTransaction
 import com.example.allmyfriends.data.local.AllMyFriendsDatabase
 import com.example.allmyfriends.data.remote.ApiService
 import com.example.allmyfriends.model.Person
-import com.example.allmyfriends.model.dto.toPersonDomainModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,7 +21,7 @@ constructor(private val apiService: ApiService, var db: AllMyFriendsDatabase) :
         val position = params.key ?: STARTING_PAGE_INDEX
 
         return try {
-            val people = apiService.queryData(position, params.loadSize).toPersonDomainModel()
+            val people = apiService.queryData(position, params.loadSize).people
 
             cacheData(position, people)
 

@@ -6,7 +6,7 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-    // To get new users when refreshing the list, remove "seed" parameter
+    // To get new users on each SwipeRefresh, remove "seed" parameter
     @GET("api/?seed=myset")
     suspend fun queryData(
         @Query("page")page: Int,

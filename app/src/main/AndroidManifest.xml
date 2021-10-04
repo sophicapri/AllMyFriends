@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AllMyFriends"
         android:fullBackupContent="true">
-        <activity android:name=".ui.SplashScreenActivity"
+        <activity android:name=".ui.splashscreen.SplashScreenActivity"
             android:theme="@style/SplashScreenTheme"
             android:exported="true">
             <intent-filter>

@@ -1,9 +1,10 @@
-package com.example.allmyfriends.ui
+package com.example.allmyfriends.ui.splashscreen
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.allmyfriends.ui.MainActivity
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity(){
