@@ -57,7 +57,7 @@ class PeopleListFragment : Fragment(), PeopleListAdapter.OnPersonClickListener {
         )
             .setAction(getString(R.string.dismiss)) { snackbar.dismiss() }
        lifecycleScope.launchWhenCreated {
-            ReactiveNetwork().observeNetworkConnectivity(requireContext()).collectLatest {
+            ReactiveNetwork().observeNetworkConnectivity(requireContext()).collect {
                 if (!it.available)
                     snackbar.show()
                 if (it.available)
