@@ -6,7 +6,7 @@
     <dimen name="margin_name">10dp</dimen>
     <dimen name="margin_cardview">12dp</dimen>
     <dimen name="elevation_cardview">8dp</dimen>
-    <dimen name="height_collapsing_toolbar">240dp</dimen>
+    <dimen name="height_collapsing_toolbar">260dp</dimen>
     <dimen name="size_large_profile_pic">200dp</dimen>
     <dimen name="margin_location_icon">24dp</dimen>
     <dimen name="margin_location">24dp</dimen>
@@ -20,4 +20,5 @@
     <dimen name="top_home_phone">8dp</dimen>
     <dimen name="margin_bottom_home_phone">24dp</dimen>
     <dimen name="margin_swipe_refresh">6dp</dimen>
+    <dimen name="margin_top_profile_pic">20dp</dimen>
 </resources>

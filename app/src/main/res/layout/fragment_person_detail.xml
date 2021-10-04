@@ -29,7 +29,8 @@
                 android:layout_width="@dimen/size_large_profile_pic"
                 android:layout_height="@dimen/size_large_profile_pic"
                 android:src="@drawable/ic_default_profile_icon"
-                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin_top_profile_pic"
+                android:layout_gravity="center|top"
                 android:contentDescription="@string/profile_picture"
                 android:fitsSystemWindows="true"
                 app:layout_collapseMode="parallax" />
