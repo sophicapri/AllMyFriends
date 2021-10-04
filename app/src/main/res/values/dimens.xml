@@ -14,7 +14,6 @@
     <dimen name="margin_top_nat_ic">16dp</dimen>
     <dimen name="margin_top_default">16dp</dimen>
     <dimen name="margin_end_default">24dp</dimen>
-    <dimen name="margin_end_separator">32dp</dimen>
     <dimen name="height_separator">2dp</dimen>
     <dimen name="top_separator">4dp</dimen>
     <dimen name="margin_start_phone">12dp</dimen>

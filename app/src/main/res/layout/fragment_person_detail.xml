@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/bkg_person_detail"
             app:collapsedTitleTextAppearance="@style/collapsingToolbarLayoutTitleColor"
-            app:contentScrim="@android:color/holo_blue_dark"
+            app:contentScrim="@color/purple_500"
             app:expandedTitleTextAppearance="@style/expandedToolbarTitleColor"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             tools:title="@tools:sample/full_names">
@@ -157,7 +157,6 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/height_separator"
                 android:layout_marginTop="@dimen/top_separator"
-                android:layout_marginEnd="@dimen/margin_end_separator"
                 android:background="@drawable/gradient_background"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

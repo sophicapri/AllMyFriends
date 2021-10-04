@@ -18,7 +18,6 @@ import com.example.allmyfriends.model.Person
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import ru.beryukhov.reactivenetwork.ReactiveNetwork
 
 @AndroidEntryPoint
@@ -79,17 +78,25 @@ class PeopleListFragment : Fragment(), PeopleListAdapter.OnPersonClickListener {
         }
     }
 
+
+    /*
+    * More informations:
+    * https://github.com/googlecodelabs/android-paging/issues/100#issuecomment-872347614
+    */
     private fun displayData() {
-        val loadCompleted = adapter.loadStateFlow
+        val notLoading = adapter.loadStateFlow
             .distinctUntilChangedBy { it.refresh }
             // Only react to cases where REFRESH completes i.e., NotLoading.
             .map { it.refresh is LoadState.NotLoading }
 
+        val shouldScrollToTheTop = notLoading.distinctUntilChanged()
+
         lifecycleScope.launchWhenCreated {
-            combine(loadCompleted, viewModel.pagingData, ::Pair)
+            combine(shouldScrollToTheTop, viewModel.pagingData, ::Pair)
                 .distinctUntilChangedBy { it.second }
-                .collect { (_, pagingData) ->
+                .collect { (canScroll, pagingData) ->
                     adapter.submitData(pagingData)
+                    if(canScroll) layoutManager.scrollToPosition(0)
                 }
         }
 
