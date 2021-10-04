@@ -19,7 +19,7 @@ Technical Stack
   * [Paging][7]
   * [Retrofit][5] - REST client.
   * [Room][16] - For caching remote data. In this projet I did not use [RemoteMediator][77] to cache data, breaking the Single Source of Truth rule. 
-    Once I'll manage to finally make it work or find an alternative, I will use that instead in the futur. 
+    Once I'll manage to make it work properly or find an alternative, I will use that instead in the futur. 
   * [Hilt][92] - For dependency injection
   * [Glide][32] - To display remote images.
   * [Kotlin Coroutines][91] - For managing background threads.
