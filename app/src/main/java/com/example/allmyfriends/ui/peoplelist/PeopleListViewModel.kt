@@ -23,7 +23,7 @@ class PeopleListViewModel @Inject constructor(
     private val uiScope = CoroutineScope(mainDispatcher + job)
     private var _pagingData: MutableStateFlow<PagingData<Person>>  = MutableStateFlow(PagingData.empty())
     val pagingData: Flow<PagingData<Person>> = _pagingData
-    var isInternetAvailable = MutableStateFlow(true)
+    var isInternetAvailable = MutableStateFlow(false)
 
     init { _pagingData = getUsers() }
 

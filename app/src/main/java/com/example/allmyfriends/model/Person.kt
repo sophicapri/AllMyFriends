@@ -14,7 +14,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @Entity(tableName = "people")
 data class Person (
-    @PrimaryKey(autoGenerate = true) var id: Long? = 0,
+    @PrimaryKey(autoGenerate = true) var id: Long?,
     val gender : String,
     val name : Name,
     val location : Location,

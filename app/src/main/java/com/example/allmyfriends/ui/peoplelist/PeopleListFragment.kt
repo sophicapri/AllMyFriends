@@ -17,7 +17,11 @@ import com.example.allmyfriends.databinding.FragmentPeopleListBinding
 import com.example.allmyfriends.model.Person
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.beryukhov.reactivenetwork.ReactiveNetwork
 
 @AndroidEntryPoint
@@ -46,15 +50,19 @@ class PeopleListFragment : Fragment(), PeopleListAdapter.OnPersonClickListener {
     }
 
     private fun observeConnectivity() {
-        snackbar = Snackbar.make(binding.root, getString(R.string.offline_mode), Snackbar.LENGTH_INDEFINITE)
+        snackbar = Snackbar.make(
+            binding.root,
+            getString(R.string.offline_mode),
+            Snackbar.LENGTH_INDEFINITE
+        )
             .setAction(getString(R.string.dismiss)) { snackbar.dismiss() }
-        lifecycleScope.launchWhenCreated {
+       lifecycleScope.launchWhenCreated {
             ReactiveNetwork().observeNetworkConnectivity(requireContext()).collectLatest {
                 if (!it.available)
                     snackbar.show()
                 if (it.available)
                     snackbar.dismiss()
-                viewModel.isInternetAvailable.emit(it.available)
+                 viewModel.isInternetAvailable.emit(it.available)
             }
         }
     }
@@ -96,7 +104,7 @@ class PeopleListFragment : Fragment(), PeopleListAdapter.OnPersonClickListener {
                 .distinctUntilChangedBy { it.second }
                 .collect { (canScroll, pagingData) ->
                     adapter.submitData(pagingData)
-                    if(canScroll) layoutManager.scrollToPosition(0)
+                    if (canScroll) layoutManager.scrollToPosition(0)
                 }
         }
 
