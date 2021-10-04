@@ -99,7 +99,7 @@ class PeopleListFragment : Fragment(), PeopleListAdapter.OnPersonClickListener {
 
         val shouldScrollToTheTop = notLoading.distinctUntilChanged()
 
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launchWhenStarted {
             combine(shouldScrollToTheTop, viewModel.pagingData, ::Pair)
                 .distinctUntilChangedBy { it.second }
                 .collect { (canScroll, pagingData) ->
@@ -108,7 +108,7 @@ class PeopleListFragment : Fragment(), PeopleListAdapter.OnPersonClickListener {
                 }
         }
 
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launchWhenStarted {
             adapter.loadStateFlow.collect { loadState ->
                 // Show loading spinner during initial load or refresh.
                 binding.progressBar.isVisible = loadState.source.refresh is LoadState.Loading
