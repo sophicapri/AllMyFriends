@@ -14,15 +14,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AllMyFriends"
         android:fullBackupContent="true">
+        <activity android:name=".ui.SplashScreenActivity"
+            android:theme="@style/SplashScreenTheme"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.MainActivity"
             android:configChanges="orientation|screenSize"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

@@ -14,6 +14,11 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="SplashScreenTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen_background</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
     <!-- Set title to white when DetailActivity is collapsed -->
     <style name="collapsingToolbarLayoutTitleColor" parent="@android:style/TextAppearance.Medium">
         <item name="android:textColor">@color/white</item>

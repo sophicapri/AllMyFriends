@@ -123,7 +123,6 @@ class PeopleListFragment : Fragment(), PeopleListAdapter.OnPersonClickListener {
     }
 
     companion object {
-        private const val TAG = "PeopleListFragment"
         private const val SPAN_COUNT = 2
 
     }
