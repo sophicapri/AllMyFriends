@@ -26,6 +26,7 @@ Technical Stack
   * [Moshi][9] - JSON library to parse data.
   * [MockK][20] - Mocking library.
   * [LeakCanary][33] - A memory leak detection library.
+  * [FlowReactiveNetwork][44] - A library listening network connection state and Internet connectivity with Coroutines Flow.
 
 [1]: https://developer.android.com/jetpack/androidx
 [2]: https://developer.android.com/kotlin/ktx
@@ -48,3 +49,4 @@ Technical Stack
 [33]: https://square.github.io/leakcanary/
 [77]: https://developer.android.com/reference/androidx/paging/RemoteMediator
 [32]: https://github.com/bumptech/glide
+[44]: https://github.com/phansier/FlowReactiveNetwork
