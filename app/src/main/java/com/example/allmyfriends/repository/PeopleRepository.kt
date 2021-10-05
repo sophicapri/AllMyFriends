@@ -18,7 +18,6 @@ class PeopleRepository(private var service: ApiService, var db: AllMyFriendsData
        }
 
     fun getPeopleRemote(): Flow<PagingData<Person>> {
-        @OptIn(ExperimentalPagingApi::class)
         return Pager(
             config = PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false),
             pagingSourceFactory = { PeopleRemotePagingSource(apiService = service, db) }

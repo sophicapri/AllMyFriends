@@ -1,6 +1,5 @@
 package com.example.allmyfriends.ui.peoplelist
 
-import android.util.Log
 import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -10,8 +9,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
-
-import ru.beryukhov.reactivenetwork.ReactiveNetwork
 
 
 @HiltViewModel
@@ -25,9 +22,9 @@ class PeopleListViewModel @Inject constructor(
     val pagingData: Flow<PagingData<Person>> = _pagingData
     val isInternetAvailable = MutableStateFlow(false)
 
-    init { _pagingData = getUsers() }
+    init { _pagingData = getPeople() }
 
-    private fun getUsers(): MutableStateFlow<PagingData<Person>> {
+    private fun getPeople(): MutableStateFlow<PagingData<Person>> {
         uiScope.launch {
             isInternetAvailable.collectLatest {
                 if (it)
