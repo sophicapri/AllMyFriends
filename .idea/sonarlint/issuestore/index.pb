@@ -9,10 +9,6 @@ p
 @app/src/main/java/com/example/allmyfriends/model/dto/Timezone.kt,2/f/2f05174dcb5753a27bd13382f06be525bc933aad
 l
 <app/src/main/java/com/example/allmyfriends/model/dto/Name.kt,6/e/6e05404cefbba9581d07050b830c4027d0ef1341
-q
-Aapp/src/main/java/com/example/allmyfriends/di/RepositoryModule.kt,f/e/fe52581c28e0903157f9ec482a9b6d555abb7ade
-o
-?app/src/main/java/com/example/allmyfriends/di/DatabaseModule.kt,7/7/77bbde74edb29a7f03b420ff9c4a2c5c17829cb6
 P
  app/src/main/AndroidManifest.xml,8/c/8c55c3ccc257e5907959013f99656e4c8ec3903e
 <
@@ -27,7 +23,9 @@ q
 Aapp/src/main/java/com/example/allmyfriends/di/ApiServiceModule.kt,2/7/2732e6a6df53ca163fb411cab84802ff4d950e2e
 }
 Mapp/src/main/java/com/example/allmyfriends/data/local/AllMyFriendsDatabase.kt,6/5/659ca2f5b2edf166376e18d41f51becd8b6a008e
-r
-Bapp/src/main/java/com/example/allmyfriends/data/local/PersonDao.kt,1/a/1ad63782d592cb74d79d37bd04d9fc0af60dafea
 j
 :app/src/main/java/com/example/allmyfriends/model/Person.kt,4/3/437067d8d2c8fd6ae10740b75c03646ce4df38dd
+r
+Bapp/src/main/java/com/example/allmyfriends/data/local/PersonDao.kt,1/a/1ad63782d592cb74d79d37bd04d9fc0af60dafea
+
+Qapp/src/main/java/com/example/allmyfriends/repository/PeopleRemotePagingSource.kt,c/2/c2b74309098d95601957a9f50c8219254ed453e7

@@ -17,7 +17,7 @@ object RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideRemoteDataRepository(apiService: ApiService, database : AllMyFriendsDatabase) =
+    fun providePeopleRepository(apiService: ApiService, database : AllMyFriendsDatabase) =
         PeopleRepository(apiService, database)
 
     @Singleton

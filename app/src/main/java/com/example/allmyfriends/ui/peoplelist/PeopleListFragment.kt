@@ -17,11 +17,7 @@ import com.example.allmyfriends.databinding.FragmentPeopleListBinding
 import com.example.allmyfriends.model.Person
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import ru.beryukhov.reactivenetwork.ReactiveNetwork
 
 @AndroidEntryPoint
@@ -54,15 +50,22 @@ class PeopleListFragment : Fragment(), PeopleListAdapter.OnPersonClickListener {
             binding.root,
             getString(R.string.offline_mode),
             Snackbar.LENGTH_INDEFINITE
-        )
-            .setAction(getString(R.string.dismiss)) { snackbar.dismiss() }
-       lifecycleScope.launchWhenCreated {
+        ).setAction(getString(R.string.dismiss)) { snackbar.dismiss() }
+
+        lifecycleScope.launchWhenCreated {
             ReactiveNetwork().observeNetworkConnectivity(requireContext()).collect {
-                if (!it.available)
-                    snackbar.show()
-                if (it.available)
+                viewModel.changeConnectivityStatus(it.available)
+            }
+
+        }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.isInternetAvailable.collect {
+                if (it) {
                     snackbar.dismiss()
-                 viewModel.isInternetAvailable.emit(it.available)
+                } else {
+                    snackbar.show()
+                }
             }
         }
     }
